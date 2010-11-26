@@ -41,16 +41,22 @@ class JsonComponent extends Object {
      */
     var $debug = false;
 
+
+    /**
+     * Decide whether its a JSONP call, or not.
+     * If we have the param callback, then we know its a JSONP req.
+     *
+     * @return void
+     **/
+    function isJSONP() {
+        return (array_key_exists('callback', $this->controller->params['url']));
+    }
+
     public function initialize(&$controller, $settings=array()) {
         $this->controller =& $controller;
         $this->_set($settings);
 
-        //This it to work around jsonp not setting XMLHttpRequest. 
-        //There may be a better way around this, let me know!
-        // So, if this == json, we will trigger the 'fake ajax' behaviour. 
-        $reqExtension = $this->RequestHandler->ext;
-
-        if( $this->fakeAjax || ('json' == $reqExtension) ) {
+        if( $this->fakeAjax || $this->isJSONP() ) {
             //Trick ReqHandler to think its an ajax request
             $_ENV['HTTP_X_REQUESTED_WITH'] = "XMLHttpRequest";
             $_SERVER['HTTP_X_REQUESTED_WITH'] = "XMLHttpRequest";

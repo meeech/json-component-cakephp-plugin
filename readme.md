@@ -4,10 +4,8 @@ Still under development, but using it in a project so wanted some easy access.
 
 More detailed instructions to come. Source is commented, so start there if you need it.
 
-If you are using jsonp, you will need to turn on 
+If you are using jsonp, make sure your request comes in with query param of callback
 
-Router::parseExtensions('json');
+ie: http://www.example.com/users/view/1?callback=Name.of.callback
 
-and make sure the url you hit ends in .json
-
-This will probably change in the future (will key it off callback params being set - this will remove need for parse extensions)
+The json.ctp fragment is setup to be aware of if it needs to wrap the response in the callback.
