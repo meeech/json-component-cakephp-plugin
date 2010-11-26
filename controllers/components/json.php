@@ -26,6 +26,7 @@ class JsonComponent extends Object {
     var $controller;
     var $components = array('RequestHandler');
 
+
     /**
      * Will make json component think any incoming req is ajax.
      * Useful to test the url in your browser
@@ -33,7 +34,8 @@ class JsonComponent extends Object {
      * @var bool
      */
     var $fakeAjax = false;
-    
+
+
     /**
      * Use application level debug setting
      *
@@ -51,8 +53,23 @@ class JsonComponent extends Object {
     function isJSONP() {
         return (array_key_exists('callback', $this->controller->params['url']));
     }
+    
+    
+    /**
+     * Figure out the filesystem path to the plugin. Please let me know if you know a better way to get this info.
+     *
+     * Since we can't rely on this plugin name always being named Json 
+     * (someone might want to check it out under a different name) we won't use App::pluginPath('Json')
+     *
+     * @return string
+     **/
+    function pluginPath() {
+        return realpath(dirname(__FILE__) . '/../..');
+    }
+    
 
     public function initialize(&$controller, $settings=array()) {
+        
         $this->controller =& $controller;
         $this->_set($settings);
 
@@ -86,7 +103,15 @@ class JsonComponent extends Object {
     
     public function shutdown(&$controller) {
         if($this->RequestHandler->isAjax()) {
-            $controller->output = $controller->render('../elements/json');
+
+            //The path to render needs to be relative to the views folder the controller->render is looking in.
+            $toRender = str_replace(APP, '../../', $this->pluginPath()).'/views/elements/json';
+
+            if(file_exists(ELEMENTS.'json.ctp')) {
+                $toRender = '../elements/json';
+            }
+            
+            $controller->output = $controller->render($toRender);
         }
     }
 }
