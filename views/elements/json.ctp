@@ -5,5 +5,3 @@ if(!empty($this->params['url']['callback'])){
 }
 
 echo sprintf($outputT, $javascript->object($output));
-
-echo 'mine!';
