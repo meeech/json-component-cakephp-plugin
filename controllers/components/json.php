@@ -8,6 +8,17 @@
  * @settings: fakeAjax (false) Set to true to make cake think any incoming req is a ajax req. Useful to load the page in your browser. 
  *            debug (false) Set to true to allow app core debug setting to be user. 
  *
+ * To use, add this to your controller compnents: 
+ * 
+ * var $components = array(
+ *       'Json.Json' => array('debug'=>false, 'fakeAjax'=>false)
+ *     );
+ *
+ *
+ * If you are using jsonp, you will need to turn on 
+ * Router::parseExtensions('json');
+ * and make sure the url you hit ends in .json. This behaviour will change - just that cakephp doesn't detect jsonp req as ajax, so isAjax fails. 
+ *
  * @author Mitchell Amihod
  */
 class JsonComponent extends Object {
