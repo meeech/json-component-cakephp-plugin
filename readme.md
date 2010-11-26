@@ -12,10 +12,6 @@ The json.ctp fragment is setup to be aware of if it needs to wrap the response i
 
 Expectations:
 
-* That a variable, $output , is set for the view. This is what we will output as json
-* If you create a view/elements/json.ctp the component will use that instead. So you can customize that according to your needs.
-Otherwise, it uses the one bundled in the plugin. 
+* That a variable, $output, is set for the view. This is what we will output using the PLUGINS views/elements/json.ctp
+* If that annoys you (the whole $output thing), you can create a views/elements/json.ctp in your app, and the component will use that instead. So you can customize that according to your needs.
 * Assumes you have the default views/layouts/ajax.ctp in your app. 
-
-
- 
