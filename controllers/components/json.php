@@ -43,6 +43,13 @@ class JsonComponent extends Object {
      */
     var $debug = false;
 
+    /**
+     * A flag used to disable at runtime for situations when you want to return HTML.
+     *
+     * @var bool
+     */
+    var $enabled = true;
+
 
     /**
      * Decide whether its a JSONP call, or not.
@@ -102,7 +109,7 @@ class JsonComponent extends Object {
     }
     
     public function shutdown(&$controller) {
-        if($this->RequestHandler->isAjax()) {
+        if($this->RequestHandler->isAjax() && $this->enabled) {
 
             //The path to render needs to be relative to the views folder the controller->render is looking in.
             $toRender = str_replace(APP, '../../', $this->pluginPath()).'/views/elements/json';
