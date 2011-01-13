@@ -46,7 +46,9 @@ class JsonComponent extends Object {
 
     /**
      * A flag used to disable at runtime for situations when you want to return HTML.
-     *
+     * You need to set enabled to FALSE in the controller::beforeFilter as once the 
+     * controller::method has run, its too late (startup has already execd)
+     * 
      * @var bool
      */
     var $enabled = true;
@@ -92,8 +94,7 @@ class JsonComponent extends Object {
         if(!$this->enabled) { 
             return;
         }
-        
-        
+
         if($this->RequestHandler->isAjax()) {
             //If we aren't in debug mode, turn off error messaging
             if(!$this->debug) {
