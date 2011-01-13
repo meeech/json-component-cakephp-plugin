@@ -43,6 +43,7 @@ class JsonComponent extends Object {
      */
     var $debug = false;
 
+
     /**
      * A flag used to disable at runtime for situations when you want to return HTML.
      *
@@ -88,7 +89,11 @@ class JsonComponent extends Object {
     }
     
     public function startup(&$controller) {
-
+        if(!$this->enabled) { 
+            return;
+        }
+        
+        
         if($this->RequestHandler->isAjax()) {
             //If we aren't in debug mode, turn off error messaging
             if(!$this->debug) {
@@ -109,15 +114,19 @@ class JsonComponent extends Object {
     }
     
     public function shutdown(&$controller) {
-        if($this->RequestHandler->isAjax() && $this->enabled) {
+        if(!$this->enabled) { 
+            return;
+        }
 
+
+        if($this->RequestHandler->isAjax()) {
             //The path to render needs to be relative to the views folder the controller->render is looking in.
             $toRender = str_replace(APP, '../../', $this->pluginPath()).'/views/elements/json';
-
+        
             if(file_exists(ELEMENTS.'json.ctp')) {
                 $toRender = '../elements/json';
             }
-            
+
             $controller->output = $controller->render($toRender);
         }
     }
